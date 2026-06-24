@@ -6,7 +6,7 @@ func _ready():
 	var sound_file = FileAccess.open("res://song.raw", FileAccess.WRITE)
 	
 	# where we're slicing
-	var angle := 0.0
+	var angle := 0.62
 	var offset := Vector2.ZERO
 	if offset.x < 0.0 or offset.y < 0.0:
 		print("offset must be greater than 0 in both axes")
@@ -48,7 +48,12 @@ func _ready():
 	
 	sound_file.close()
 	
-	#OS.execute("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
+	var dir = DirAccess.open(".")
+	dir.remove("./song.wav")
+	OS.execute("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
+	
+	$AudioStreamPlayer.stream = load("res://song.wav")
+	get_tree().create_timer(0.5).connect("timeout", $AudioStreamPlayer.play)
 
 func compute_tone(time: float, frequency: float, amplitude: float) -> int:
 	return sin(time * TAU * frequency) * amplitude * 4096.0
