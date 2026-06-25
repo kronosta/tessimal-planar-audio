@@ -105,7 +105,7 @@ func _ready():
 	
 	var dir = DirAccess.open(".")
 	dir.remove("./song.wav")
-<<<<<<< HEAD
+
 	OS.create_process("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
 
 func get_wave_function(color : Color) -> Callable:
@@ -132,6 +132,3 @@ func compute_triangle_sample(amplitude: float, cycle_pos: float) -> int:
 
 func compute_sawtooth_sample(amplitude: float, cycle_pos: float) -> int:
 	return (cycle_pos / TAU - floor(cycle_pos / TAU)) * amplitude * 4096.0
-=======
-	OS.execute("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
->>>>>>> c713d988eb0a69a0b1c485f0e20dda98cd4a7886
