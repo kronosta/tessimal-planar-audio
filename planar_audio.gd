@@ -6,7 +6,7 @@ func _ready():
 	var sound_file = FileAccess.open("res://song.raw", FileAccess.WRITE)
 	
 	# where we're slicing
-	var angle := 0.62
+	var angle := 0.0
 	var offset := Vector2.ZERO
 	if offset.x < 0.0 or offset.y < 0.0:
 		print("offset must be greater than 0 in both axes")
@@ -29,20 +29,31 @@ func _ready():
 	
 	var length := ray_start.distance_to(intersection)
 	
+	# loop setup
 	var sample_rate := 44100.0
+	
+	var amplitudes := PackedFloat32Array()
+	amplitudes.resize(tracks.size())
+	
+	var frequencies := PackedFloat32Array()
+	frequencies.resize(tracks.size())
+	
 	for i in sample_rate * length * seconds_in_a_pixel:
 		var time := float(i) / sample_rate
 		var sample := 0
 		
-		for track_image in track_images:
-			var color := track_image.get_pixel(
+		for t in track_images.size():
+			var color := track_images[t].get_pixel(
 				int(floor((time / seconds_in_a_pixel) + offset.x)) * cos(angle),
 				int(floor((time / seconds_in_a_pixel) + offset.y)) * sin(angle)
 			)
 			
-			var frequency := pow(2.0, color.h * 4.0) * 64.0
+			if color != Color.BLACK:
+				frequencies[t] = pow(2.0, color.h * 4.0) * 64.0
 			
-			sample += compute_tone(time, frequency, color.v)
+			amplitudes[t] = lerpf(amplitudes[t], color.v, 0.002)
+			
+			sample += compute_tone(time, frequencies[t], amplitudes[t])
 		
 		sound_file.store_16(sample)
 	
@@ -51,9 +62,6 @@ func _ready():
 	var dir = DirAccess.open(".")
 	dir.remove("./song.wav")
 	OS.execute("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
-	
-	$AudioStreamPlayer.stream = load("res://song.wav")
-	get_tree().create_timer(0.5).connect("timeout", $AudioStreamPlayer.play)
 
 func compute_tone(time: float, frequency: float, amplitude: float) -> int:
 	return sin(time * TAU * frequency) * amplitude * 4096.0
