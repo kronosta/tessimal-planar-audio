@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b1v48wdbgvrfk"]
+
+[ext_resource type="Script" uid="uid://dnox563u6guij" path="res://planar_audio.gd" id="1_36xda"]
+[ext_resource type="Texture2D" uid="uid://dd86hr86cylpi" path="res://Kronosta - Anthro.png" id="2_23m8m"]
+[ext_resource type="Texture2D" uid="uid://bkskwmiybaejd" path="res://Kronosta - Anthro (3).png" id="4_00nv2"]
+[ext_resource type="Texture2D" uid="uid://pr2h1tl12ihe" path="res://Kronosta - Anthro (4).png" id="5_akox3"]
+[ext_resource type="Texture2D" uid="uid://bsq7r1t42nhrt" path="res://Kronosta - Anthro (wavetable 2).png" id="6_36xda"]
+[ext_resource type="Texture2D" uid="uid://du6elwcx0m3ee" path="res://Kronosta - Anthro (wavetable).png" id="6_hx1p2"]
+
+[node name="Node2D" type="Node2D" unique_id=1248805522]
+script = ExtResource("1_36xda")
+tracks = Array[Texture2D]([ExtResource("2_23m8m"), ExtResource("4_00nv2"), ExtResource("5_akox3")])
+wavetable_tracks = Array[Texture2D]([ExtResource("6_hx1p2"), ExtResource("6_36xda"), ExtResource("6_hx1p2")])
+angle = 1.5699999999999998
+seconds_in_a_pixel = 0.25
+octaves = 4.0
+lowest_frequency = 64.0

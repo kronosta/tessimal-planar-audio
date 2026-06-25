@@ -2,5 +2,5 @@
 .godot/
 /android/
 
-song.wav
-song.raw
+song*.wav
+song*.raw

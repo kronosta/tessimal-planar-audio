@@ -7,6 +7,8 @@ class_name PlanarAudio extends Node2D
 @export var offset: Vector2 # offset in seconds
 @export var sample_rate := 44100.0
 @export var seconds_in_a_pixel := 1.0/8.0
+@export var octaves := 3.0
+@export var lowest_frequency := 128.0
 
 func _ready():
 	var sound_file = FileAccess.open("res://song.raw", FileAccess.WRITE)
@@ -86,13 +88,13 @@ func _ready():
 			
 			
 			if color != Color.BLACK:
-				frequencies[t] = pow(2.0, color.h * 3.0) * 128.0
+				frequencies[t] = pow(2.0, color.h * octaves) * lowest_frequency
 			
 			amplitudes[t] = lerpf(amplitudes[t], color.v, 0.002)
 			
 			phases[t] = phase_color.v * TAU
 			sample += wavetable_callables[pixelcoords.x][pixelcoords.y][t].call(amplitudes[t], (time * TAU + phases[t]) * frequencies[t])
-		
+
 		sound_file.store_16(sample)
 	
 	sound_file.close()
