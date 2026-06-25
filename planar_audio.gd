@@ -38,6 +38,9 @@ func _ready():
 	var frequencies := PackedFloat32Array()
 	frequencies.resize(tracks.size())
 	
+	var wave_progresses := PackedFloat64Array()
+	wave_progresses.resize(tracks.size())
+	
 	for i in sample_rate * length * seconds_in_a_pixel:
 		var time := float(i) / sample_rate
 		var sample := 0
@@ -48,12 +51,16 @@ func _ready():
 				int(((time / seconds_in_a_pixel) * sin(angle)) + (offset.y / seconds_in_a_pixel))
 			)
 			
+			amplitudes[t] = lerpf(amplitudes[t], color.v, 0.002)
+			
 			if color != Color.BLACK:
 				frequencies[t] = pow(2.0, color.h * 3.0) * 128.0
 			
-			amplitudes[t] = lerpf(amplitudes[t], color.v, 0.002)
+			wave_progresses[t] += frequencies[t] / sample_rate
+			if wave_progresses[t] >= 1.0:
+				wave_progresses[t] -= 1.0
 			
-			sample += compute_tone(time, frequencies[t], amplitudes[t])
+			sample += sin(wave_progresses[t] * TAU) * amplitudes[t] * 4096.0;
 		
 		sound_file.store_16(sample)
 	
@@ -62,6 +69,3 @@ func _ready():
 	var dir = DirAccess.open(".")
 	dir.remove("./song.wav")
 	OS.execute("ffmpeg", PackedStringArray(["-f", "s16le", "-ar", "44100", "-ac", "1", "-i", "./song.raw", "./song.wav"]))
-
-func compute_tone(time: float, frequency: float, amplitude: float) -> int:
-	return sin(time * TAU * frequency) * amplitude * 4096.0
