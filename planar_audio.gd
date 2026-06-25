@@ -6,8 +6,8 @@ func _ready():
 	var sound_file = FileAccess.open("res://song.raw", FileAccess.WRITE)
 	
 	# where we're slicing
-	var angle := 0.01
-	var offset := Vector2(1.0, 0.0) # offset in seconds
+	var angle := 0.0
+	var offset := Vector2(0.0, 0.0) # offset in seconds
 	if offset.x < 0.0 or offset.y < 0.0:
 		print("offset must be greater than 0 in both axes")
 		return
@@ -16,7 +16,7 @@ func _ready():
 	var track_images: Array[Image]
 	for t in tracks:
 		track_images.append(t.get_image())
-	var seconds_in_a_pixel := 0.25
+	var seconds_in_a_pixel := 1.0/8.0
 	
 	# get length of slice
 	var ray_start := Vector3(offset.x, offset.y, 0.5)
@@ -49,7 +49,7 @@ func _ready():
 			)
 			
 			if color != Color.BLACK:
-				frequencies[t] = pow(2.0, color.h * 4.0) * 64.0
+				frequencies[t] = pow(2.0, color.h * 3.0) * 128.0
 			
 			amplitudes[t] = lerpf(amplitudes[t], color.v, 0.002)
 			
