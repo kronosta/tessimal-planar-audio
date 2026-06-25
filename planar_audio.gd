@@ -92,10 +92,6 @@ func _ready():
 			if color != Color.BLACK:
 				frequencies[t] = pow(2.0, color.h * octaves) * lowest_frequency
 			
-			wave_progresses[t] += frequencies[t] / sample_rate
-			if wave_progresses[t] >= 1.0:
-				wave_progresses[t] -= 1.0
-			
 			phases[t] = phase_color.v * TAU
 			sample += wavetable_callables[pixelcoords.x][pixelcoords.y][t].call(amplitudes[t], (time * TAU + phases[t]) * frequencies[t])
 
