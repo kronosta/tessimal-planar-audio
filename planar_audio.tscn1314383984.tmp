@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://cojvjxyujeanc"]
 
 [ext_resource type="Script" uid="uid://dnox563u6guij" path="res://planar_audio.gd" id="1_8hpcd"]
-[ext_resource type="Texture2D" uid="uid://ocg30hmgpg1x" path="res://wavetable-test-sawtooth.png" id="3_a8isa"]
+[ext_resource type="Texture2D" uid="uid://2i2rcw5vegku" path="res://phase-test-track.png" id="2_gy50r"]
 [ext_resource type="Texture2D" uid="uid://bjgxxxo2achvp" path="res://phase-test-track2.png" id="3_oo66s"]
 [ext_resource type="Texture2D" uid="uid://d0c7ij6plmi6f" path="res://phase-test-phase.png" id="4_4pt1y"]
 
 [node name="PlanarAudio" type="Node2D" unique_id=1807654077]
 script = ExtResource("1_8hpcd")
-tracks = Array[Texture2D]([ExtResource("3_oo66s"), ExtResource("3_oo66s")])
+tracks = Array[Texture2D]([ExtResource("2_gy50r"), ExtResource("3_oo66s")])
 phase_tracks = Array[Texture2D]([ExtResource("4_4pt1y")])
-wavetable_tracks = Array[Texture2D]([ExtResource("3_a8isa"), ExtResource("3_a8isa")])
+wavetable_tracks = null
+angle = null
+offset = null
+sample_rate = null

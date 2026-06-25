@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cojvjxyujeanc"]
+
+[ext_resource type="Script" uid="uid://dnox563u6guij" path="res://planar_audio.gd" id="1_8hpcd"]
+[ext_resource type="Texture2D" uid="uid://dgnndv8isyegl" path="res://drums1.png" id="2_i5qlq"]
+
+[node name="PlanarAudio" type="Node2D" unique_id=1807654077]
+script = ExtResource("1_8hpcd")
+tracks = Array[Texture2D]([ExtResource("2_i5qlq")])
